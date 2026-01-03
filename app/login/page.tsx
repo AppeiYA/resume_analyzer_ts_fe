@@ -1,9 +1,24 @@
-"use client"
+"use client";
 import { useState } from "react";
 import { Eye, EyeOff } from "lucide-react";
+import { useAuth } from "../AuthContext";
+import { UserLoginRequest } from "@/types/request.types";
+import { useRouter } from "next/navigation";
 
 export default function Login() {
+  const router = useRouter();
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
   const [showPassword, setShowPassword] = useState<boolean>(false);
+  const { login, isLoading, error } = useAuth();
+
+  const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const result = await login({ email: email, password: password });
+    if (result.success) {
+      router.push("/");
+    }
+  };
 
   return (
     <section className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
@@ -16,17 +31,32 @@ export default function Login() {
           Welcome back. Please sign in to continue.
         </p>
 
-        <form className="space-y-4">
+        <form className="space-y-4" onSubmit={handleLogin}>
+          <p className="text-sm text-red-500 p-0 m-0">{error}</p>
+          <label htmlFor="email" className="sr-only">
+            Email address
+          </label>
           <input
+            id="email"
             type="email"
             placeholder="Email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
             className="w-full rounded-lg border border-zinc-300 bg-transparent p-3 text-sm text-zinc-900 outline-none focus:border-black dark:border-zinc-700 dark:text-white dark:focus:border-white"
           />
 
           <div className="relative">
+            <label htmlFor="password" className="sr-only">
+              Password
+            </label>
             <input
+              id="password"
               type={showPassword ? "text" : "password"}
               placeholder="Password"
+              required
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
               className="w-full rounded-lg border border-zinc-300 bg-transparent p-3 pr-10 text-sm text-zinc-900 outline-none focus:border-black dark:border-zinc-700 dark:text-white dark:focus:border-white"
             />
 
@@ -39,7 +69,11 @@ export default function Login() {
             </button>
           </div>
 
-          <input type="submit" value="Sign in"  className="bg-white text-black text-sm p-1 rounded-lg hover:bg-gray-200 font-demibold cursor-pointer"/>
+          <input
+            type="submit"
+            value="Sign in"
+            className="bg-white text-black text-sm p-1 rounded-lg hover:bg-gray-200 font-demibold cursor-pointer"
+          />
         </form>
       </main>
     </section>

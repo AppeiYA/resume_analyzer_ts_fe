@@ -33,7 +33,7 @@ export default function SignUp() {
         </p>
 
         <form className="space-y-4">
-            <p className="text-sm text-red-500 p-0 m-0">{error}</p>
+          <p className="text-sm text-red-500 p-0 m-0">{error}</p>
           <input
             type="email"
             placeholder="Email"

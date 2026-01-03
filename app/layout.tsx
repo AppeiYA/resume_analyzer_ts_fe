@@ -3,7 +3,7 @@ import "./globals.css";
 import Header from "@/components/header.component";
 import { AuthProvider } from "./AuthContext";
 
-export const metadata: Metadata = {
+const metadata: Metadata = {
   title: "Resume Analyzer",
   description: "Analyze your resume and prepare to bag the biggest jobs",
 };
@@ -19,7 +19,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={`antialiased`}>
         <AuthProvider>
-          <Header logo={""} showLogo={true} user={null} />
+          <Header logo={""} showLogo={true} />
           <main>{children}</main>
         </AuthProvider>
       </body>

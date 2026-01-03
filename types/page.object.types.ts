@@ -3,5 +3,5 @@ interface HeaderProps {
   pages?: string[];
   buttons?: string[];
   showLogo: boolean;
-  user: { name: string; avatar?: string } | null;
+  userData?: { name: string; avatar?: string } | null;
 }

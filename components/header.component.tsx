@@ -1,6 +1,8 @@
+"use client"
 import { UserCircle } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { useAuth } from "@/app/AuthContext";
 
 const DEFAULT_PAGES: string[] = ["Home", "About"];
 const DEFAULT_BUTTONS: string[] = ["Log in", "Signup"];
@@ -9,8 +11,9 @@ export default function Header({
   pages = DEFAULT_PAGES,
   buttons = DEFAULT_BUTTONS,
   showLogo = true,
-  user = null,
+  userData= null,
 }: HeaderProps) {
+  const {user} = useAuth()
   return (
     <nav className="flex justify-between p-4 border-b border-white/20 sticky top-0 z-50">
       <div className="flex flex-row items-center gap-2">

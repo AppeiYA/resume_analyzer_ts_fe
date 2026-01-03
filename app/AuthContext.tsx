@@ -1,9 +1,18 @@
 "use client";
 
-
-import { createContext, useContext, useState, ReactNode, useEffect } from "react";
+import { login as apiLogin } from "@/services/auth";
+import { UserLoginRequest } from "@/types/request.types";
+import {
+  createContext,
+  useContext,
+  useState,
+  ReactNode,
+  useEffect,
+} from "react";
 
 interface User {
+  id: string;
+  avatar: string;
   name: string;
   email: string;
 }
@@ -11,16 +20,36 @@ interface User {
 interface AuthContextType {
   user: User | null;
   isAuthenticated: boolean;
-  login: (user: User) => void;
+  isLoading: boolean;
+  error: any | null;
+  login: (loginRequest: UserLoginRequest) => Promise<void | any>;
   logout: () => void;
 }
 
-export const AuthContext = createContext<AuthContextType | undefined>(undefined);
+export const AuthContext = createContext<AuthContextType | undefined>(
+  undefined
+);
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
+  const [error, setError] = useState<any | null>(null);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  const login = (newUser: User) => setUser(newUser);
+  const doLogin = async (loginRequest: UserLoginRequest) => {
+    setIsLoading(true);
+    setError(null);
+    try {
+      const response = await apiLogin(loginRequest);
+      const userData = response.data;
+      setUser(userData);
+      return { success: true, userData };
+    } catch (err: any) {
+      setError(err?.message || "Login failed");
+      return { success: false, error: err?.message };
+    } finally {
+      setIsLoading(false);
+    }
+  };
   const logout = () => setUser(null);
 
   const isAuthenticated = !!user;
@@ -36,7 +65,16 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, [user]);
 
   return (
-    <AuthContext.Provider value={{ user, isAuthenticated, login, logout }}>
+    <AuthContext.Provider
+      value={{
+        user,
+        isAuthenticated,
+        isLoading,
+        error,
+        login: doLogin,
+        logout,
+      }}
+    >
       {children}
     </AuthContext.Provider>
   );

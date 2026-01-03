@@ -17,7 +17,7 @@ export async function sendRequest(endpoint: string, options: RequestOptions = {}
 
   if (authToken) fetchHeaders["Authorization"] = `Bearer ${authToken}`;
 
-  const res = await fetch(endpoint, {
+  const res = await fetch(process.env.NEXT_PUBLIC_BACKEND_BASE_URL + endpoint, {
     method,
     headers: fetchHeaders,
     body: body ? JSON.stringify(body) : undefined,
