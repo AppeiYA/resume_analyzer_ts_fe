@@ -2,7 +2,6 @@
 import { useState } from "react";
 import { Eye, EyeOff } from "lucide-react";
 import { useAuth } from "../AuthContext";
-import { UserLoginRequest } from "@/types/request.types";
 import { useRouter } from "next/navigation";
 
 export default function Login() {
