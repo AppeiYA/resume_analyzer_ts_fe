@@ -6,6 +6,7 @@ import { useState } from "react";
 
 export default function SignUp() {
   const router = useRouter();
+  const [message, setMessage] = useState("");
   const [email, setEmail] = useState<string>("");
   const [firstName, setFirstName] = useState<string>("");
   const [lastName, setLastName] = useState<string>("");
@@ -37,8 +38,8 @@ export default function SignUp() {
         last_name: lastName,
       });
       if (result) {
-        console.log(result.message);
-        router.push("/login");
+        setMessage(result.message);
+        setTimeout(() => router.push("/login"), 4000);
       }
     } catch (err: any) {
       console.log(err);
@@ -59,6 +60,7 @@ export default function SignUp() {
 
         <form className="space-y-4" onSubmit={handleRegister}>
           <p className="text-sm text-red-500 p-0 m-0">{error}</p>
+          <p className="text-sm text-green-500 p-0 m-0">{message}</p>
           <input
             type="text"
             placeholder="First Name:"

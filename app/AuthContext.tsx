@@ -83,7 +83,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setError(null);
     try {
       const response = await apiLogin(loginRequest);
-      console.log(response)
       const userData = response.data.data;
       const access_token = response.data.token;
 

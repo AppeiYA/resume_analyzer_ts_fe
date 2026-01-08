@@ -9,7 +9,6 @@ const authStore: AuthStore = {
 };
 
 export const setAuthStore = (auth: AuthStore) => {
-  console.log("setting auth store");
   authStore.accessToken = auth.accessToken;
   authStore.refreshAccessToken = auth.refreshAccessToken;
 };

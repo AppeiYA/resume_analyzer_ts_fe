@@ -22,7 +22,6 @@ export async function sendRequest(
   const { accessToken, refreshAccessToken } = getAuthStore();
   let token = accessToken || null;
   if (type === "authorized") {
-    console.log("token", accessToken);
     if (!token || isTokenExpired(token)) {
       if (refreshAccessToken) {
         const refreshed = await refreshAccessToken();

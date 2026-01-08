@@ -26,7 +26,6 @@ export async function refresh_access_token(): Promise<boolean> {
 
     if (data.token.token) {
       localStorage.setItem("accessToken", data.token.token);
-      console.log(data)
       return true;
     }
     return false;
